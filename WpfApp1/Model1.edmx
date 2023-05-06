@@ -1,0 +1,464 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="dbStrahModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="SK_dogovor">
+          <Key>
+            <PropertyRef Name="kod_dogovora" />
+          </Key>
+          <Property Name="kod_dogovora" Type="int" Nullable="false" />
+          <Property Name="data_zakluchenya_dogovora" Type="varchar" MaxLength="50" />
+          <Property Name="srok_deystvia" Type="varchar" MaxLength="50" />
+          <Property Name="strahovaya_summa" Type="varchar" MaxLength="50" />
+          <Property Name="vid_srahovania" Type="varchar" MaxLength="50" />
+          <Property Name="tarifnaya_stavka" Type="varchar" MaxLength="50" />
+          <Property Name="kod_klienta" Type="int" />
+          <Property Name="kod_kompanii" Type="int" />
+          <Property Name="kod_filiala_kompanii" Type="int" />
+        </EntityType>
+        <EntityType Name="SK_filial_kompanii">
+          <Key>
+            <PropertyRef Name="kod_filiala_kompanii" />
+          </Key>
+          <Property Name="kod_filiala_kompanii" Type="int" Nullable="false" />
+          <Property Name="nazvanie" Type="varchar" MaxLength="50" />
+          <Property Name="adres" Type="varchar" MaxLength="50" />
+          <Property Name="telefon" Type="varchar" MaxLength="50" />
+          <Property Name="kod_klienta" Type="int" />
+          <Property Name="kod_kompanii" Type="int" />
+        </EntityType>
+        <EntityType Name="SK_Klient">
+          <Key>
+            <PropertyRef Name="kod_klienta" />
+          </Key>
+          <Property Name="kod_klienta" Type="int" Nullable="false" />
+          <Property Name="familiya" Type="varchar" MaxLength="50" />
+          <Property Name="imya" Type="varchar" MaxLength="50" />
+          <Property Name="otchestvo" Type="varchar" MaxLength="50" />
+          <Property Name="nomer_telephona" Type="varchar" MaxLength="50" />
+          <Property Name="nomer_dogovora" Type="int" />
+          <Property Name="kod_kompanii" Type="int" />
+        </EntityType>
+        <EntityType Name="SK_strahovaya_kompania">
+          <Key>
+            <PropertyRef Name="kod_kompanii" />
+          </Key>
+          <Property Name="kod_kompanii" Type="int" Nullable="false" />
+          <Property Name="nazvane" Type="varchar" MaxLength="50" />
+          <Property Name="adres" Type="varchar" MaxLength="50" />
+          <Property Name="telefon" Type="varchar" MaxLength="50" />
+          <Property Name="elektronnaya_pochta" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="SK_vid_dogovora">
+          <Key>
+            <PropertyRef Name="kod_vida_dogovora" />
+          </Key>
+          <Property Name="kod_vida_dogovora" Type="int" Nullable="false" />
+          <Property Name="vid_dogovora" Type="varchar" MaxLength="50" />
+          <Property Name="kod_dogovora" Type="int" />
+        </EntityType>
+        <Association Name="FK_SK_dogovor_SK_filial_kompanii">
+          <End Role="SK_filial_kompanii" Type="Self.SK_filial_kompanii" Multiplicity="0..1" />
+          <End Role="SK_dogovor" Type="Self.SK_dogovor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SK_filial_kompanii">
+              <PropertyRef Name="kod_filiala_kompanii" />
+            </Principal>
+            <Dependent Role="SK_dogovor">
+              <PropertyRef Name="kod_filiala_kompanii" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SK_dogovor_SK_Klient">
+          <End Role="SK_Klient" Type="Self.SK_Klient" Multiplicity="0..1" />
+          <End Role="SK_dogovor" Type="Self.SK_dogovor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SK_Klient">
+              <PropertyRef Name="kod_klienta" />
+            </Principal>
+            <Dependent Role="SK_dogovor">
+              <PropertyRef Name="kod_klienta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SK_dogovor_SK_strahovaya_kompania">
+          <End Role="SK_strahovaya_kompania" Type="Self.SK_strahovaya_kompania" Multiplicity="0..1" />
+          <End Role="SK_dogovor" Type="Self.SK_dogovor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SK_strahovaya_kompania">
+              <PropertyRef Name="kod_kompanii" />
+            </Principal>
+            <Dependent Role="SK_dogovor">
+              <PropertyRef Name="kod_kompanii" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SK_filial_kompanii_SK_Klient">
+          <End Role="SK_Klient" Type="Self.SK_Klient" Multiplicity="0..1" />
+          <End Role="SK_filial_kompanii" Type="Self.SK_filial_kompanii" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SK_Klient">
+              <PropertyRef Name="kod_klienta" />
+            </Principal>
+            <Dependent Role="SK_filial_kompanii">
+              <PropertyRef Name="kod_klienta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SK_filial_kompanii_SK_strahovaya_kompania">
+          <End Role="SK_strahovaya_kompania" Type="Self.SK_strahovaya_kompania" Multiplicity="0..1" />
+          <End Role="SK_filial_kompanii" Type="Self.SK_filial_kompanii" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SK_strahovaya_kompania">
+              <PropertyRef Name="kod_kompanii" />
+            </Principal>
+            <Dependent Role="SK_filial_kompanii">
+              <PropertyRef Name="kod_kompanii" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SK_Klient_SK_strahovaya_kompania">
+          <End Role="SK_strahovaya_kompania" Type="Self.SK_strahovaya_kompania" Multiplicity="0..1" />
+          <End Role="SK_Klient" Type="Self.SK_Klient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SK_strahovaya_kompania">
+              <PropertyRef Name="kod_kompanii" />
+            </Principal>
+            <Dependent Role="SK_Klient">
+              <PropertyRef Name="kod_kompanii" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SK_vid_dogovora_SK_dogovor">
+          <End Role="SK_dogovor" Type="Self.SK_dogovor" Multiplicity="0..1" />
+          <End Role="SK_vid_dogovora" Type="Self.SK_vid_dogovora" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SK_dogovor">
+              <PropertyRef Name="kod_dogovora" />
+            </Principal>
+            <Dependent Role="SK_vid_dogovora">
+              <PropertyRef Name="kod_dogovora" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="dbStrahModelStoreContainer">
+          <EntitySet Name="SK_dogovor" EntityType="Self.SK_dogovor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SK_filial_kompanii" EntityType="Self.SK_filial_kompanii" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SK_Klient" EntityType="Self.SK_Klient" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SK_strahovaya_kompania" EntityType="Self.SK_strahovaya_kompania" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SK_vid_dogovora" EntityType="Self.SK_vid_dogovora" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_SK_dogovor_SK_filial_kompanii" Association="Self.FK_SK_dogovor_SK_filial_kompanii">
+            <End Role="SK_filial_kompanii" EntitySet="SK_filial_kompanii" />
+            <End Role="SK_dogovor" EntitySet="SK_dogovor" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SK_dogovor_SK_Klient" Association="Self.FK_SK_dogovor_SK_Klient">
+            <End Role="SK_Klient" EntitySet="SK_Klient" />
+            <End Role="SK_dogovor" EntitySet="SK_dogovor" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SK_dogovor_SK_strahovaya_kompania" Association="Self.FK_SK_dogovor_SK_strahovaya_kompania">
+            <End Role="SK_strahovaya_kompania" EntitySet="SK_strahovaya_kompania" />
+            <End Role="SK_dogovor" EntitySet="SK_dogovor" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SK_filial_kompanii_SK_Klient" Association="Self.FK_SK_filial_kompanii_SK_Klient">
+            <End Role="SK_Klient" EntitySet="SK_Klient" />
+            <End Role="SK_filial_kompanii" EntitySet="SK_filial_kompanii" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SK_filial_kompanii_SK_strahovaya_kompania" Association="Self.FK_SK_filial_kompanii_SK_strahovaya_kompania">
+            <End Role="SK_strahovaya_kompania" EntitySet="SK_strahovaya_kompania" />
+            <End Role="SK_filial_kompanii" EntitySet="SK_filial_kompanii" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SK_Klient_SK_strahovaya_kompania" Association="Self.FK_SK_Klient_SK_strahovaya_kompania">
+            <End Role="SK_strahovaya_kompania" EntitySet="SK_strahovaya_kompania" />
+            <End Role="SK_Klient" EntitySet="SK_Klient" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SK_vid_dogovora_SK_dogovor" Association="Self.FK_SK_vid_dogovora_SK_dogovor">
+            <End Role="SK_dogovor" EntitySet="SK_dogovor" />
+            <End Role="SK_vid_dogovora" EntitySet="SK_vid_dogovora" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="dbStrahModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="SK_dogovor">
+          <Key>
+            <PropertyRef Name="kod_dogovora" />
+          </Key>
+          <Property Name="kod_dogovora" Type="Int32" Nullable="false" />
+          <Property Name="data_zakluchenya_dogovora" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="srok_deystvia" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="strahovaya_summa" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="vid_srahovania" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="tarifnaya_stavka" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="kod_klienta" Type="Int32" />
+          <Property Name="kod_kompanii" Type="Int32" />
+          <Property Name="kod_filiala_kompanii" Type="Int32" />
+          <NavigationProperty Name="SK_filial_kompanii" Relationship="Self.FK_SK_dogovor_SK_filial_kompanii" FromRole="SK_dogovor" ToRole="SK_filial_kompanii" />
+          <NavigationProperty Name="SK_Klient" Relationship="Self.FK_SK_dogovor_SK_Klient" FromRole="SK_dogovor" ToRole="SK_Klient" />
+          <NavigationProperty Name="SK_strahovaya_kompania" Relationship="Self.FK_SK_dogovor_SK_strahovaya_kompania" FromRole="SK_dogovor" ToRole="SK_strahovaya_kompania" />
+          <NavigationProperty Name="SK_vid_dogovora" Relationship="Self.FK_SK_vid_dogovora_SK_dogovor" FromRole="SK_dogovor" ToRole="SK_vid_dogovora" />
+        </EntityType>
+        <EntityType Name="SK_filial_kompanii">
+          <Key>
+            <PropertyRef Name="kod_filiala_kompanii" />
+          </Key>
+          <Property Name="kod_filiala_kompanii" Type="Int32" Nullable="false" />
+          <Property Name="nazvanie" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="adres" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="telefon" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="kod_klienta" Type="Int32" />
+          <Property Name="kod_kompanii" Type="Int32" />
+          <NavigationProperty Name="SK_dogovor" Relationship="Self.FK_SK_dogovor_SK_filial_kompanii" FromRole="SK_filial_kompanii" ToRole="SK_dogovor" />
+          <NavigationProperty Name="SK_Klient" Relationship="Self.FK_SK_filial_kompanii_SK_Klient" FromRole="SK_filial_kompanii" ToRole="SK_Klient" />
+          <NavigationProperty Name="SK_strahovaya_kompania" Relationship="Self.FK_SK_filial_kompanii_SK_strahovaya_kompania" FromRole="SK_filial_kompanii" ToRole="SK_strahovaya_kompania" />
+        </EntityType>
+        <EntityType Name="SK_Klient">
+          <Key>
+            <PropertyRef Name="kod_klienta" />
+          </Key>
+          <Property Name="kod_klienta" Type="Int32" Nullable="false" />
+          <Property Name="familiya" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="imya" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="otchestvo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="nomer_telephona" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="nomer_dogovora" Type="Int32" />
+          <Property Name="kod_kompanii" Type="Int32" />
+          <NavigationProperty Name="SK_dogovor" Relationship="Self.FK_SK_dogovor_SK_Klient" FromRole="SK_Klient" ToRole="SK_dogovor" />
+          <NavigationProperty Name="SK_filial_kompanii" Relationship="Self.FK_SK_filial_kompanii_SK_Klient" FromRole="SK_Klient" ToRole="SK_filial_kompanii" />
+          <NavigationProperty Name="SK_strahovaya_kompania" Relationship="Self.FK_SK_Klient_SK_strahovaya_kompania" FromRole="SK_Klient" ToRole="SK_strahovaya_kompania" />
+        </EntityType>
+        <EntityType Name="SK_strahovaya_kompania">
+          <Key>
+            <PropertyRef Name="kod_kompanii" />
+          </Key>
+          <Property Name="kod_kompanii" Type="Int32" Nullable="false" />
+          <Property Name="nazvane" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="adres" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="telefon" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="elektronnaya_pochta" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="SK_dogovor" Relationship="Self.FK_SK_dogovor_SK_strahovaya_kompania" FromRole="SK_strahovaya_kompania" ToRole="SK_dogovor" />
+          <NavigationProperty Name="SK_filial_kompanii" Relationship="Self.FK_SK_filial_kompanii_SK_strahovaya_kompania" FromRole="SK_strahovaya_kompania" ToRole="SK_filial_kompanii" />
+          <NavigationProperty Name="SK_Klient" Relationship="Self.FK_SK_Klient_SK_strahovaya_kompania" FromRole="SK_strahovaya_kompania" ToRole="SK_Klient" />
+        </EntityType>
+        <EntityType Name="SK_vid_dogovora">
+          <Key>
+            <PropertyRef Name="kod_vida_dogovora" />
+          </Key>
+          <Property Name="kod_vida_dogovora" Type="Int32" Nullable="false" />
+          <Property Name="vid_dogovora" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="kod_dogovora" Type="Int32" />
+          <NavigationProperty Name="SK_dogovor" Relationship="Self.FK_SK_vid_dogovora_SK_dogovor" FromRole="SK_vid_dogovora" ToRole="SK_dogovor" />
+        </EntityType>
+        <Association Name="FK_SK_dogovor_SK_filial_kompanii">
+          <End Role="SK_filial_kompanii" Type="Self.SK_filial_kompanii" Multiplicity="0..1" />
+          <End Role="SK_dogovor" Type="Self.SK_dogovor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SK_filial_kompanii">
+              <PropertyRef Name="kod_filiala_kompanii" />
+            </Principal>
+            <Dependent Role="SK_dogovor">
+              <PropertyRef Name="kod_filiala_kompanii" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SK_dogovor_SK_Klient">
+          <End Role="SK_Klient" Type="Self.SK_Klient" Multiplicity="0..1" />
+          <End Role="SK_dogovor" Type="Self.SK_dogovor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SK_Klient">
+              <PropertyRef Name="kod_klienta" />
+            </Principal>
+            <Dependent Role="SK_dogovor">
+              <PropertyRef Name="kod_klienta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SK_dogovor_SK_strahovaya_kompania">
+          <End Role="SK_strahovaya_kompania" Type="Self.SK_strahovaya_kompania" Multiplicity="0..1" />
+          <End Role="SK_dogovor" Type="Self.SK_dogovor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SK_strahovaya_kompania">
+              <PropertyRef Name="kod_kompanii" />
+            </Principal>
+            <Dependent Role="SK_dogovor">
+              <PropertyRef Name="kod_kompanii" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SK_vid_dogovora_SK_dogovor">
+          <End Role="SK_dogovor" Type="Self.SK_dogovor" Multiplicity="0..1" />
+          <End Role="SK_vid_dogovora" Type="Self.SK_vid_dogovora" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SK_dogovor">
+              <PropertyRef Name="kod_dogovora" />
+            </Principal>
+            <Dependent Role="SK_vid_dogovora">
+              <PropertyRef Name="kod_dogovora" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SK_filial_kompanii_SK_Klient">
+          <End Role="SK_Klient" Type="Self.SK_Klient" Multiplicity="0..1" />
+          <End Role="SK_filial_kompanii" Type="Self.SK_filial_kompanii" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SK_Klient">
+              <PropertyRef Name="kod_klienta" />
+            </Principal>
+            <Dependent Role="SK_filial_kompanii">
+              <PropertyRef Name="kod_klienta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SK_filial_kompanii_SK_strahovaya_kompania">
+          <End Role="SK_strahovaya_kompania" Type="Self.SK_strahovaya_kompania" Multiplicity="0..1" />
+          <End Role="SK_filial_kompanii" Type="Self.SK_filial_kompanii" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SK_strahovaya_kompania">
+              <PropertyRef Name="kod_kompanii" />
+            </Principal>
+            <Dependent Role="SK_filial_kompanii">
+              <PropertyRef Name="kod_kompanii" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SK_Klient_SK_strahovaya_kompania">
+          <End Role="SK_strahovaya_kompania" Type="Self.SK_strahovaya_kompania" Multiplicity="0..1" />
+          <End Role="SK_Klient" Type="Self.SK_Klient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SK_strahovaya_kompania">
+              <PropertyRef Name="kod_kompanii" />
+            </Principal>
+            <Dependent Role="SK_Klient">
+              <PropertyRef Name="kod_kompanii" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="dbStrahkomp" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="SK_dogovor" EntityType="Self.SK_dogovor" />
+          <EntitySet Name="SK_filial_kompanii" EntityType="Self.SK_filial_kompanii" />
+          <EntitySet Name="SK_Klient" EntityType="Self.SK_Klient" />
+          <EntitySet Name="SK_strahovaya_kompania" EntityType="Self.SK_strahovaya_kompania" />
+          <EntitySet Name="SK_vid_dogovora" EntityType="Self.SK_vid_dogovora" />
+          <AssociationSet Name="FK_SK_dogovor_SK_filial_kompanii" Association="Self.FK_SK_dogovor_SK_filial_kompanii">
+            <End Role="SK_filial_kompanii" EntitySet="SK_filial_kompanii" />
+            <End Role="SK_dogovor" EntitySet="SK_dogovor" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SK_dogovor_SK_Klient" Association="Self.FK_SK_dogovor_SK_Klient">
+            <End Role="SK_Klient" EntitySet="SK_Klient" />
+            <End Role="SK_dogovor" EntitySet="SK_dogovor" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SK_dogovor_SK_strahovaya_kompania" Association="Self.FK_SK_dogovor_SK_strahovaya_kompania">
+            <End Role="SK_strahovaya_kompania" EntitySet="SK_strahovaya_kompania" />
+            <End Role="SK_dogovor" EntitySet="SK_dogovor" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SK_vid_dogovora_SK_dogovor" Association="Self.FK_SK_vid_dogovora_SK_dogovor">
+            <End Role="SK_dogovor" EntitySet="SK_dogovor" />
+            <End Role="SK_vid_dogovora" EntitySet="SK_vid_dogovora" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SK_filial_kompanii_SK_Klient" Association="Self.FK_SK_filial_kompanii_SK_Klient">
+            <End Role="SK_Klient" EntitySet="SK_Klient" />
+            <End Role="SK_filial_kompanii" EntitySet="SK_filial_kompanii" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SK_filial_kompanii_SK_strahovaya_kompania" Association="Self.FK_SK_filial_kompanii_SK_strahovaya_kompania">
+            <End Role="SK_strahovaya_kompania" EntitySet="SK_strahovaya_kompania" />
+            <End Role="SK_filial_kompanii" EntitySet="SK_filial_kompanii" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SK_Klient_SK_strahovaya_kompania" Association="Self.FK_SK_Klient_SK_strahovaya_kompania">
+            <End Role="SK_strahovaya_kompania" EntitySet="SK_strahovaya_kompania" />
+            <End Role="SK_Klient" EntitySet="SK_Klient" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="dbStrahModelStoreContainer" CdmEntityContainer="dbStrahkomp">
+          <EntitySetMapping Name="SK_dogovor">
+            <EntityTypeMapping TypeName="dbStrahModel.SK_dogovor">
+              <MappingFragment StoreEntitySet="SK_dogovor">
+                <ScalarProperty Name="kod_dogovora" ColumnName="kod_dogovora" />
+                <ScalarProperty Name="data_zakluchenya_dogovora" ColumnName="data_zakluchenya_dogovora" />
+                <ScalarProperty Name="srok_deystvia" ColumnName="srok_deystvia" />
+                <ScalarProperty Name="strahovaya_summa" ColumnName="strahovaya_summa" />
+                <ScalarProperty Name="vid_srahovania" ColumnName="vid_srahovania" />
+                <ScalarProperty Name="tarifnaya_stavka" ColumnName="tarifnaya_stavka" />
+                <ScalarProperty Name="kod_klienta" ColumnName="kod_klienta" />
+                <ScalarProperty Name="kod_kompanii" ColumnName="kod_kompanii" />
+                <ScalarProperty Name="kod_filiala_kompanii" ColumnName="kod_filiala_kompanii" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SK_filial_kompanii">
+            <EntityTypeMapping TypeName="dbStrahModel.SK_filial_kompanii">
+              <MappingFragment StoreEntitySet="SK_filial_kompanii">
+                <ScalarProperty Name="kod_filiala_kompanii" ColumnName="kod_filiala_kompanii" />
+                <ScalarProperty Name="nazvanie" ColumnName="nazvanie" />
+                <ScalarProperty Name="adres" ColumnName="adres" />
+                <ScalarProperty Name="telefon" ColumnName="telefon" />
+                <ScalarProperty Name="kod_klienta" ColumnName="kod_klienta" />
+                <ScalarProperty Name="kod_kompanii" ColumnName="kod_kompanii" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SK_Klient">
+            <EntityTypeMapping TypeName="dbStrahModel.SK_Klient">
+              <MappingFragment StoreEntitySet="SK_Klient">
+                <ScalarProperty Name="kod_klienta" ColumnName="kod_klienta" />
+                <ScalarProperty Name="familiya" ColumnName="familiya" />
+                <ScalarProperty Name="imya" ColumnName="imya" />
+                <ScalarProperty Name="otchestvo" ColumnName="otchestvo" />
+                <ScalarProperty Name="nomer_telephona" ColumnName="nomer_telephona" />
+                <ScalarProperty Name="nomer_dogovora" ColumnName="nomer_dogovora" />
+                <ScalarProperty Name="kod_kompanii" ColumnName="kod_kompanii" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SK_strahovaya_kompania">
+            <EntityTypeMapping TypeName="dbStrahModel.SK_strahovaya_kompania">
+              <MappingFragment StoreEntitySet="SK_strahovaya_kompania">
+                <ScalarProperty Name="kod_kompanii" ColumnName="kod_kompanii" />
+                <ScalarProperty Name="nazvane" ColumnName="nazvane" />
+                <ScalarProperty Name="adres" ColumnName="adres" />
+                <ScalarProperty Name="telefon" ColumnName="telefon" />
+                <ScalarProperty Name="elektronnaya_pochta" ColumnName="elektronnaya_pochta" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SK_vid_dogovora">
+            <EntityTypeMapping TypeName="dbStrahModel.SK_vid_dogovora">
+              <MappingFragment StoreEntitySet="SK_vid_dogovora">
+                <ScalarProperty Name="kod_vida_dogovora" ColumnName="kod_vida_dogovora" />
+                <ScalarProperty Name="vid_dogovora" ColumnName="vid_dogovora" />
+                <ScalarProperty Name="kod_dogovora" ColumnName="kod_dogovora" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

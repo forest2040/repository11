@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="8c76cd9072a142d2b466c2c0775a39ad" Name="Diagram1">
+        <EntityTypeShape EntityType="dbStrahModel.SK_dogovor" Width="1.5" PointX="5.25" PointY="8.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbStrahModel.SK_filial_kompanii" Width="1.5" PointX="8.25" PointY="9.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbStrahModel.SK_Klient" Width="1.5" PointX="3" PointY="13" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbStrahModel.SK_strahovaya_kompania" Width="1.5" PointX="0.75" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbStrahModel.SK_vid_dogovora" Width="1.5" PointX="7.5" PointY="13.75" IsExpanded="true" />
+        <AssociationConnector Association="dbStrahModel.FK_SK_dogovor_SK_filial_kompanii" ManuallyRouted="false" />
+        <AssociationConnector Association="dbStrahModel.FK_SK_dogovor_SK_Klient" ManuallyRouted="false" />
+        <AssociationConnector Association="dbStrahModel.FK_SK_dogovor_SK_strahovaya_kompania" ManuallyRouted="false" />
+        <AssociationConnector Association="dbStrahModel.FK_SK_vid_dogovora_SK_dogovor" ManuallyRouted="false" />
+        <AssociationConnector Association="dbStrahModel.FK_SK_filial_kompanii_SK_Klient" ManuallyRouted="false" />
+        <AssociationConnector Association="dbStrahModel.FK_SK_filial_kompanii_SK_strahovaya_kompania" ManuallyRouted="false" />
+        <AssociationConnector Association="dbStrahModel.FK_SK_Klient_SK_strahovaya_kompania" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
